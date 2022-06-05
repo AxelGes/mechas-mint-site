@@ -464,6 +464,7 @@ let freeMinted = false;
 window.onload = function () {
   let provider;
   let contract;
+  let address;
 
   ethereum.on("chainChanged", (chainId) => {
     window.location.reload();
@@ -499,7 +500,8 @@ window.onload = function () {
       return alert("Metamask not found. Please install Metamask");
     }
 
-    return window.ethereum.enable().then(async function (address) {
+    return window.ethereum.enable().then(async function (connectedAddress) {
+      address = connectedAddress[0];
       metamaskConnectButton.classList.add("hide");
       mintButton.onclick = function (e) {
         e.preventDefault();
@@ -518,7 +520,7 @@ window.onload = function () {
         return alert("Please connect to the Ethereum Mainnet");
       }
 
-      contract.userMintedFree(address[0]).then(userFreeMinted);
+      contract.userMintedFree(address).then(userFreeMinted);
 
       //read contract total supply
       contract.totalSupply().then((val) => {
@@ -562,7 +564,7 @@ window.onload = function () {
   }
 
   function freeMint() {
-    contract.userMintedFree(address[0]).then(userFreeMinted);
+    contract.userMintedFree(address).then(userFreeMinted);
 
     if (freeMinted)
       alert(
