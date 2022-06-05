@@ -581,6 +581,7 @@ window.onload = function () {
       })
       .catch((err) => {
         freeMintButton.disable = false;
+        freeMintButton.innerHTML = "Free Mint 1";
         alert(
           "There was an error trying to mint your Brawlers, please try again later!"
         );
