@@ -470,10 +470,6 @@ window.onload = function () {
     window.location.reload();
   });
 
-  ethereum.on("accountsChanged", (wallet) => {
-    window.location.reload();
-  });
-
   const input = document.getElementById("total-to-mint");
   const mintButton = document.getElementById("mint-button");
   const freeMintButton = document.getElementById("free-mint-button");
