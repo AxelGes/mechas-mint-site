@@ -470,6 +470,10 @@ window.onload = function () {
     window.location.reload();
   });
 
+  ethereum.on("accountsChanged", (wallet) => {
+    window.location.reload();
+  });
+
   const input = document.getElementById("total-to-mint");
   const mintButton = document.getElementById("mint-button");
   const freeMintButton = document.getElementById("free-mint-button");
@@ -531,7 +535,7 @@ window.onload = function () {
     });
   }
 
-  function mint() {
+  async function mint() {
     const contract = new ethers.Contract(
       contractAddress,
       contractAbi,
@@ -541,30 +545,36 @@ window.onload = function () {
     const count = parseInt(input.innerHTML);
     const value = mintPrice * count;
 
-    mintButton.disable = true;
+    mintButton.onclick = () => {};
     mintButton.innerHTML = "Minting...";
 
-    contract
+    const tx = await contract
       .publicMint(count, {
         value: ethers.utils.parseEther(value.toString()),
       })
-      .then(function (tx) {
-        alert("Brawlers minted successfully!");
-        mintButton.disable = false;
-        calculateTotal();
-        return tx.wait();
-      })
       .catch((err) => {
-        mintButton.disable = false;
+        mintButton.disabled = false;
         calculateTotal();
         alert(
           "There was an error trying to mint your Brawlers, please try again later!"
         );
       });
+
+    tx.wait().then(function (tx) {
+      alert("Brawlers minted successfully!");
+      mintButton.disabled = false;
+      mintButton.onclick = function (e) {
+        e.preventDefault();
+        startMint(mint);
+      };
+      calculateTotal();
+    });
   }
 
-  function freeMint() {
-    contract.userMintedFree(address).then(userFreeMinted);
+  async function freeMint() {
+    const userMintedOneFree = await contract.userMintedFree(address);
+
+    userFreeMinted(userMintedOneFree);
 
     if (freeMinted)
       alert(
@@ -573,25 +583,28 @@ window.onload = function () {
 
     const count = 1;
 
-    freeMintButton.disable = true;
+    freeMintButton.disabled = true;
+    freeMintButton.onclick = () => {};
     freeMintButton.innerHTML = "Minting...";
 
-    contract
-      .freeMint(count)
-      .then(function (tx) {
-        alert("Brawler minted successfully! You can now public mint!");
-        userFreeMinted(true);
-        freeMintButton.className.add("hide");
-        return tx.wait();
-      })
-      .catch((err) => {
-        freeMintButton.disable = false;
-        freeMintButton.innerHTML = "Free Mint 1";
-        alert(
-          "There was an error trying to mint your Brawlers, please try again later!"
-        );
-      })
-      .finally(() => {});
+    const tx = await contract.freeMint(count).catch((err) => {
+      freeMintButton.disabled = false;
+      freeMintButton.onclick = function (e) {
+        e.preventDefault();
+        startMint(freeMint);
+      };
+      freeMintButton.innerHTML = "Free Mint 1";
+      alert(
+        "There was an error trying to mint your Brawlers, please try again later!"
+      );
+    });
+
+    tx.wait().then(function (tx) {
+      freeMintButton.disabled = true;
+      alert("Brawler minted successfully! You can now public mint!");
+      userFreeMinted(true);
+      freeMintButton.classList.add("hide");
+    });
   }
 
   function startMint(mintFunc) {
