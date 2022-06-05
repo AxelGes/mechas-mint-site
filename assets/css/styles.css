@@ -14,12 +14,16 @@
   --text-color: hsl(var(--hue), 4%, 85%);
   --text-color-light: hsl(var(--hue), 4%, 55%);
   /*Black background*/
-  --body-color: linear-gradient(136deg,
-      rgb(22, 22, 22) 0%,
-      rgb(32, 32, 32) 100%);
-  --container-color: linear-gradient(136deg,
-      rgb(34, 34, 34) 0%,
-      rgb(32, 32, 32) 100%);
+  --body-color: linear-gradient(
+    136deg,
+    rgb(22, 22, 22) 0%,
+    rgb(32, 32, 32) 100%
+  );
+  --container-color: linear-gradient(
+    136deg,
+    rgb(34, 34, 34) 0%,
+    rgb(32, 32, 32) 100%
+  );
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
   --biggest-font-size: 2.5rem;
@@ -363,7 +367,8 @@ body {
 
 /*=============== HOME ===============*/
 
-.home {}
+.home {
+}
 
 .home__content {
   row-gap: 1rem;
@@ -381,9 +386,11 @@ body {
   justify-content: space-around;
   border-radius: 2rem;
   background: rgb(3, 1, 48);
-  background: radial-gradient(circle,
-      rgba(3, 1, 48, 1) 14%,
-      rgba(5, 5, 83, 1) 44%);
+  background: radial-gradient(
+    circle,
+    rgba(3, 1, 48, 1) 14%,
+    rgba(5, 5, 83, 1) 44%
+  );
   padding: 2rem;
   width: 90%;
   max-width: 600px;
@@ -410,8 +417,8 @@ body {
 }
 
 .mechas-gif {
-  height: 25vh;
-  width: fit-content;
+  width: 270px;
+  height: auto;
 }
 
 .sign {
@@ -423,9 +430,11 @@ body {
   -moz-box-shadow: 0px 10px 43px 2px rgba(0, 0, 0, 0.69);
   border: 0.2rem solid rgb(32, 32, 32);
   background: rgb(3, 1, 48);
-  background: radial-gradient(circle,
-      rgba(3, 1, 48, 1) 14%,
-      rgba(0, 0, 45, 1) 100%);
+  background: radial-gradient(
+    circle,
+    rgba(3, 1, 48, 1) 14%,
+    rgba(0, 0, 45, 1) 100%
+  );
 }
 
 .home__group {
@@ -597,9 +606,11 @@ body {
 }
 
 /*=============== GAMEPLAY ===============*/
-.gameplay {}
+.gameplay {
+}
 
-.gameplay-swiper {}
+.gameplay-swiper {
+}
 
 .gameplay__content {
   row-gap: 1rem;
@@ -722,7 +733,8 @@ body {
   flex-direction: column;
   background-color: rgb(66, 63, 63);
   height: 20rem;
-  background: linear-gradient(var(--container-color), var(--body-color)) padding-box,
+  background: linear-gradient(var(--container-color), var(--body-color))
+      padding-box,
     linear-gradient(to bottom, var(--first-color), transparent) border-box;
   border: 5px solid transparent;
   border-radius: 15px;
