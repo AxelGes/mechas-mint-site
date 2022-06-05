@@ -562,6 +562,8 @@ window.onload = function () {
   }
 
   function freeMint() {
+    contract.userMintedFree(address[0]).then(userFreeMinted);
+
     if (freeMinted)
       alert(
         "Caution: You've already minted your free Brawler, proceeding may cause unexpectedly high gas fees and a failed tx!"
@@ -576,6 +578,7 @@ window.onload = function () {
       .freeMint(count)
       .then(function (tx) {
         alert("Brawler minted successfully! You can now public mint!");
+        userFreeMinted(true);
         freeMintButton.className.add("hide");
         return tx.wait();
       })
