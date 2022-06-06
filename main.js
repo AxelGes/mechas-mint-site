@@ -972,7 +972,7 @@ window.onload = function () {
       );
 
       const network = await provider.getNetwork();
-      if (network.chainId !== 4) {
+      if (network.chainId !== 1) {
         return alert("Please connect to the Ethereum Mainnet");
       }
 
