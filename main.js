@@ -879,6 +879,8 @@ const contractAbi = [
   },
 ];
 
+const mintDate = 1654887600;
+
 const mintPrice = 0.005;
 let freeMinted = false;
 
@@ -886,6 +888,39 @@ window.onload = function () {
   let provider;
   let contract;
   let address;
+
+  let second = 1000,
+    minute = second * 60,
+    hour = minute * 60,
+    day = hour * 24;
+
+  const countDown = mintDate * 1000,
+    x = setInterval(function () {
+      var now = new Date().getTime(),
+        distance = countDown - now;
+      if (distance > 0) {
+        var days = Math.floor(distance / day),
+          hours = Math.floor((distance % day) / hour),
+          minutes = Math.floor((distance % hour) / minute),
+          seconds = Math.floor((distance % minute) / second);
+      } else {
+        var days = 0,
+          hours = 0,
+          minutes = 0,
+          seconds = 0;
+
+        document.getElementById("countdown").classList.add("hide");
+        document.getElementById("home-buttons").classList.remove("hide");
+      }
+
+      (document.getElementById("days").innerText = days),
+        (document.getElementById("hours").innerText =
+          "0".substring(hours >= 10) + hours),
+        (document.getElementById("minutes").innerText =
+          "0".substring(minutes >= 10) + minutes),
+        (document.getElementById("seconds").innerText =
+          "0".substring(seconds >= 10) + seconds);
+    }, second);
 
   ethereum.on("chainChanged", (chainId) => {
     window.location.reload();
@@ -896,16 +931,16 @@ window.onload = function () {
   const freeMintButton = document.getElementById("free-mint-button");
   const metamaskConnectButton = document.getElementById("metamask-connect");
 
-  function calculateTotal() {
+  const calculateTotal = () => {
     const count = parseInt(input.innerHTML);
     mintButton.innerHTML = `Mint ${count} for ${count * mintPrice} ETH`;
     mintButton.onclick = function (e) {
       e.preventDefault();
       startMint(mint);
     };
-  }
+  };
 
-  function userFreeMinted(val) {
+  const userFreeMinted = (val) => {
     freeMinted = val;
     if (!freeMinted) {
       freeMintButton.classList.remove("hide");
@@ -914,9 +949,9 @@ window.onload = function () {
         startMint(freeMint);
       };
     }
-  }
+  };
 
-  function connectWallet() {
+  const connectWallet = () => {
     if (!window.ethereum || !window.ethereum.enable) {
       return alert("Metamask not found. Please install Metamask");
     }
@@ -950,9 +985,9 @@ window.onload = function () {
 
       mintButton.classList.remove("hide");
     });
-  }
+  };
 
-  async function mint() {
+  const mint = async () => {
     const contract = new ethers.Contract(
       contractAddress,
       contractAbi,
@@ -986,9 +1021,9 @@ window.onload = function () {
       };
       calculateTotal();
     });
-  }
+  };
 
-  async function freeMint() {
+  const freeMint = async () => {
     const userMintedOneFree = await contract.userMintedFree(address);
 
     userFreeMinted(userMintedOneFree);
@@ -1022,15 +1057,15 @@ window.onload = function () {
       userFreeMinted(true);
       freeMintButton.classList.add("hide");
     });
-  }
+  };
 
-  function startMint(mintFunc) {
+  const startMint = (mintFunc) => {
     if (provider) {
       mintFunc();
     } else {
       connectWallet().then(mint);
     }
-  }
+  };
 
   document.getElementById("mecha-max").onclick = function (e) {
     input.innerHTML = 10;

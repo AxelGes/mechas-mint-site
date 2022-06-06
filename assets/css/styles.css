@@ -485,6 +485,26 @@ body {
   user-select: none;
 }
 
+.countdown-container {
+  animation: pulsate 1.5s infinite alternate;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+}
+
+.countdown-container div {
+  font-size: 1em;
+  display: inline-block;
+  text-transform: uppercase;
+  width: 24%;
+}
+
+.countdown-container div span {
+  padding: 0.2em;
+  display: block;
+  font-size: 2em;
+}
+
 .mecha-mint {
   padding: 20px;
 }
