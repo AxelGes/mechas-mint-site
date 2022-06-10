@@ -879,49 +879,10 @@ const contractAbi = [
   },
 ];
 
-const mintDate = 1654887600;
-
 const mintPrice = 0.005;
 let freeMinted = false;
 
 window.onload = function () {
-  let provider;
-  let contract;
-  let address;
-
-  let second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
-
-  const countDown = mintDate * 1000,
-    x = setInterval(function () {
-      var now = new Date().getTime(),
-        distance = countDown - now;
-      if (distance > 0) {
-        var days = Math.floor(distance / day),
-          hours = Math.floor((distance % day) / hour),
-          minutes = Math.floor((distance % hour) / minute),
-          seconds = Math.floor((distance % minute) / second);
-      } else {
-        var days = 0,
-          hours = 0,
-          minutes = 0,
-          seconds = 0;
-
-        document.getElementById("countdown").classList.add("hide");
-        document.getElementById("home-buttons").classList.remove("hide");
-      }
-
-      (document.getElementById("days").innerText = days),
-        (document.getElementById("hours").innerText =
-          "0".substring(hours >= 10) + hours),
-        (document.getElementById("minutes").innerText =
-          "0".substring(minutes >= 10) + minutes),
-        (document.getElementById("seconds").innerText =
-          "0".substring(seconds >= 10) + seconds);
-    }, second);
-
   ethereum.on("chainChanged", (chainId) => {
     window.location.reload();
   });
